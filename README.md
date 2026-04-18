@@ -7,7 +7,7 @@
 [![Live Dashboard](https://img.shields.io/badge/Power%20BI-Live%20Dashboard-00b4d8?style=for-the-badge&logo=powerbi&logoColor=white)](https://app.powerbi.com/links/xJWdsYU1uE?ctid=452a0083-a6e2-46aa-8082-480002eeb4b5&pbi_source=linkShare)
 [![Dataset](https://img.shields.io/badge/Kaggle-Dataset-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white)](https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs)
 [![Website](https://img.shields.io/badge/Project-Website-0d1b2a?style=for-the-badge&logo=github&logoColor=white)](#)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Siddharth%20Sadhu-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/siddharth-sadhu)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Siddharth%20Sadhu-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/siddharth-sadhu-b67551274/)
 
 <br>
 
@@ -20,7 +20,7 @@
 | 🖥️ Live Power BI Dashboard | [View Dashboard](https://app.powerbi.com/links/xJWdsYU1uE?ctid=452a0083-a6e2-46aa-8082-480002eeb4b5&pbi_source=linkShare) |
 | 📦 Kaggle Dataset | [Data Science, AI & ML Job Salaries 2025](https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs) |
 | 🌐 Project Website | [View Website](#) |
-| 👤 LinkedIn | [Siddharth Sadhu](https://www.linkedin.com/in/siddharth-sadhu) |
+| 👤 LinkedIn | [Siddharth Sadhu](https://www.linkedin.com/in/siddharth-sadhu-b67551274/) |
 
 ---
 
@@ -204,7 +204,7 @@ AI-ML-Job-Market-Analysis/
 B.Tech ICT · Adani University, Ahmedabad · 2024–2027
 CGPA: 8.77
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/siddharth-sadhu)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/siddharth-sadhu-b67551274/)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=flat-square&logo=github)](https://github.com/siddharthsadhu)
 [![Email](https://img.shields.io/badge/Email-Contact-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:siddharthsadhu28@gmail.com)
 
@@ -219,5 +219,5 @@ The dataset is sourced from Kaggle under the **CC0 Public Domain** license.
 ---
 
 <div align="center">
-  <sub>Built with ♥ and DAX · Data Visualization Project · Adani University · 2025</sub>
+  <sub>Built with ♥ and DAX · Data Visualization Project · Adani University · 2026</sub>
 </div>
