@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI/ML Job Market Analysis — Siddharth Sadhu</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#05080f;--bg2:#080d18;--bg3:#0c1220;--card:#0e1525;--card2:#111a2e;
+  --border:rgba(0,229,255,0.1);--border2:rgba(0,229,255,0.22);--border3:rgba(0,229,255,0.35);
+  --cyan:#00e5ff;--cyan2:#00b4d8;--cyan-dim:rgba(0,229,255,0.07);
+  --amber:#ffb300;--green:#00e676;--purple:#b388ff;
+  --text:#e8edf5;--muted:#7a8a9e;--muted2:#3d4f63;
+  --fd:'Syne',sans-serif;--fm:'DM Mono',monospace;--fb:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,0.012) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.012) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 4rem;background:rgba(5,8,15,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--fm);font-size:0.78rem;color:var(--cyan);letter-spacing:0.12em;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:var(--fm);font-size:0.7rem;color:var(--muted);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--cyan);}
+.nav-cta{font-family:var(--fm);font-size:0.68rem;color:var(--cyan);border:1px solid var(--border2);padding:0.32rem 0.9rem;border-radius:2rem;background:var(--cyan-dim);text-decoration:none;transition:all 0.2s;}
+.nav-cta:hover{background:rgba(0,229,255,0.13);border-color:var(--border3);}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:9rem 2rem 5rem;overflow:hidden;}
+.orb1{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(0,229,255,0.065) 0%,transparent 68%);pointer-events:none;}
+.orb2{position:absolute;bottom:8%;left:18%;width:400px;height:300px;background:radial-gradient(ellipse,rgba(179,136,255,0.04) 0%,transparent 70%);pointer-events:none;}
+.eyebrow{font-family:var(--fm);font-size:0.7rem;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:1.6rem;display:flex;align-items:center;justify-content:center;gap:1rem;}
+.eyebrow::before,.eyebrow::after{content:'';width:50px;height:1px;background:linear-gradient(to right,transparent,var(--cyan));opacity:0.4;}
+.eyebrow::after{background:linear-gradient(to left,transparent,var(--cyan));}
+h1{font-family:var(--fd);font-size:clamp(2.4rem,6.5vw,5.5rem);font-weight:800;line-height:1.05;letter-spacing:-0.025em;margin-bottom:1.5rem;}
+.grad{background:linear-gradient(120deg,var(--cyan) 0%,#0099cc 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:1rem;color:var(--muted);max-width:560px;margin:0 auto 2.8rem;line-height:1.78;font-weight:300;}
+.cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-p{font-family:var(--fm);font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 2rem;background:var(--cyan);color:var(--bg);border:none;border-radius:4px;cursor:pointer;text-decoration:none;font-weight:500;transition:all 0.25s;display:inline-block;}
+.btn-p:hover{background:#22eeff;transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,229,255,0.25);}
+.btn-o{font-family:var(--fm);font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 2rem;background:transparent;color:var(--cyan);border:1px solid var(--border2);border-radius:4px;text-decoration:none;transition:all 0.25s;display:inline-block;}
+.btn-o:hover{background:var(--cyan-dim);border-color:var(--border3);}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;}
+.scroll-hint span{font-family:var(--fm);font-size:0.6rem;color:var(--muted2);letter-spacing:0.18em;text-transform:uppercase;}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:0.2;}50%{opacity:1;}}
+
+/* KPI BAR */
+.kpi-bar{position:relative;z-index:1;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.kpi-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:1100px;margin:0 auto;}
+.kpi-item{padding:2rem 1.8rem;border-right:1px solid var(--border);text-align:center;}
+.kpi-item:last-child{border-right:none;}
+.kpi-val{font-family:var(--fm);font-size:2.5rem;font-weight:400;color:var(--cyan);line-height:1;margin-bottom:0.4rem;}
+.kpi-label{font-size:0.8rem;color:var(--muted);margin-bottom:0.2rem;}
+.kpi-sub{font-family:var(--fm);font-size:0.62rem;color:var(--muted2);}
+
+/* SECTIONS */
+.sec{position:relative;z-index:1;padding:5.5rem 4rem;max-width:1200px;margin:0 auto;}
+.sec-full{position:relative;z-index:1;padding:5rem 4rem;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.sec-full-in{max-width:1200px;margin:0 auto;}
+.eye{font-family:var(--fm);font-size:0.68rem;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.8rem;}
+.stitle{font-family:var(--fd);font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.9rem;}
+.sdesc{color:var(--muted);font-size:0.92rem;line-height:1.75;max-width:560px;font-weight:300;}
+.divider{width:100%;height:1px;background:var(--border);}
+
+/* DASHBOARD PREVIEW */
+.db-frame{margin-top:2.5rem;border:1px solid var(--border2);border-radius:10px;overflow:hidden;}
+.db-bar{background:var(--bg3);padding:0.7rem 1.2rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid var(--border);}
+.dot{width:9px;height:9px;border-radius:50%;}
+.dr{background:#ff5f57;}.dy{background:#ffbd2e;}.dg{background:#28ca41;}
+.db-url{flex:1;text-align:center;font-family:var(--fm);font-size:0.65rem;color:var(--muted);background:var(--bg);padding:0.25rem 0.9rem;border-radius:4px;border:1px solid var(--border);}
+.db-content{background:#08101e;}
+
+/* DATASET */
+.ds-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;margin-top:2.8rem;align-items:start;}
+.ds-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.ds-head{padding:1.3rem 1.6rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;}
+.ds-icon{width:40px;height:40px;border-radius:6px;background:var(--cyan-dim);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:0.68rem;color:var(--cyan);}
+.ds-name{font-family:var(--fd);font-size:0.95rem;font-weight:700;}
+.ds-src{font-family:var(--fm);font-size:0.65rem;color:var(--muted);margin-top:0.12rem;}
+.ds-row{display:flex;justify-content:space-between;align-items:center;padding:0.85rem 1.6rem;border-bottom:1px solid var(--border);}
+.ds-row:last-child{border-bottom:none;}
+.dk{font-family:var(--fm);font-size:0.7rem;color:var(--muted);}
+.dv{font-size:0.83rem;font-weight:500;}
+.badge{font-family:var(--fm);font-size:0.62rem;padding:0.2rem 0.65rem;border-radius:2rem;border:1px solid;}
+.bg{color:var(--green);background:rgba(0,230,118,0.07);border-color:rgba(0,230,118,0.22);}
+.bc{color:var(--cyan);background:var(--cyan-dim);border-color:var(--border2);}
+.ba{color:var(--amber);background:rgba(255,179,0,0.07);border-color:rgba(255,179,0,0.22);}
+.col-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.col-hd{padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);font-family:var(--fm);font-size:0.68rem;color:var(--cyan);letter-spacing:0.12em;text-transform:uppercase;}
+.col-row{display:flex;gap:0.8rem;padding:0.82rem 1.5rem;border-bottom:1px solid var(--border);}
+.col-row:last-child{border-bottom:none;}
+.cn{font-family:var(--fm);font-size:0.75rem;color:var(--cyan);min-width:155px;flex-shrink:0;}
+.ct{font-family:var(--fm);font-size:0.6rem;color:var(--amber);margin-top:0.12rem;}
+.cd{font-size:0.78rem;color:var(--muted);line-height:1.5;font-weight:300;}
+
+/* INSIGHTS */
+.ins-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.8rem;}
+.ins-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.7rem;position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s;}
+.ins-card::after{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(to right,var(--cyan),transparent);opacity:0;transition:opacity 0.2s;}
+.ins-card:hover{border-color:var(--border2);transform:translateY(-4px);}
+.ins-card:hover::after{opacity:1;}
+.ins-num{font-family:var(--fm);font-size:0.62rem;color:var(--cyan);letter-spacing:0.15em;margin-bottom:1rem;opacity:0.55;}
+.ins-title{font-family:var(--fd);font-size:1rem;font-weight:700;line-height:1.3;margin-bottom:0.65rem;}
+.ins-body{font-size:0.82rem;color:var(--muted);line-height:1.65;font-weight:300;}
+.ins-val{margin-top:1.1rem;font-family:var(--fm);font-size:1.4rem;color:var(--cyan);}
+
+/* INTERPRET */
+.int-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;margin-top:2.8rem;}
+.int-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.7rem;display:flex;gap:1.1rem;transition:border-color 0.2s;}
+.int-card:hover{border-color:var(--border2);}
+.int-icon{width:42px;height:42px;border-radius:6px;background:var(--cyan-dim);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fm);font-size:0.72rem;color:var(--cyan);font-weight:500;}
+.int-title{font-family:var(--fd);font-size:0.97rem;font-weight:700;margin-bottom:0.48rem;}
+.int-body{font-size:0.81rem;color:var(--muted);line-height:1.65;font-weight:300;}
+.int-tip{margin-top:0.75rem;padding:0.55rem 0.85rem;background:rgba(0,229,255,0.05);border-left:2px solid var(--cyan);border-radius:0 4px 4px 0;font-family:var(--fm);font-size:0.68rem;color:var(--muted);font-style:italic;}
+
+/* VISUALS */
+.vis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.8rem;}
+.vis-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.4rem;transition:all 0.2s;}
+.vis-card:hover{border-color:var(--border2);background:var(--card2);}
+.vis-type{font-family:var(--fm);font-size:0.62rem;color:var(--amber);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.45rem;}
+.vis-name{font-size:0.88rem;font-weight:500;margin-bottom:0.38rem;}
+.vis-body{font-size:0.76rem;color:var(--muted);line-height:1.55;font-weight:300;}
+
+/* METHOD */
+.mth-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;margin-top:2.8rem;}
+.mth-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.7rem;position:relative;transition:border-color 0.2s;}
+.mth-card:hover{border-color:var(--border2);}
+.mth-num{font-family:var(--fm);font-size:2.8rem;font-weight:300;color:var(--border2);position:absolute;top:1rem;right:1.4rem;line-height:1;}
+.mth-tag{font-family:var(--fm);font-size:0.62rem;color:var(--cyan);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;}
+.mth-title{font-family:var(--fd);font-size:1rem;font-weight:700;margin-bottom:0.55rem;}
+.mth-body{font-size:0.81rem;color:var(--muted);line-height:1.65;font-weight:300;}
+.mth-items{margin-top:0.75rem;display:flex;flex-direction:column;gap:0.28rem;}
+.mth-item{font-family:var(--fm);font-size:0.7rem;color:var(--muted);display:flex;align-items:flex-start;gap:0.5rem;}
+.mth-item::before{content:'→';color:var(--cyan);flex-shrink:0;margin-top:0.05rem;}
+
+/* DAX */
+.dax-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;margin-top:2.5rem;}
+.dax-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 0.2s;}
+.dax-card:hover{border-color:var(--border2);}
+.dax-head{padding:0.95rem 1.3rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.dax-name{font-family:var(--fm);font-size:0.8rem;color:var(--cyan);}
+.dax-kind{font-family:var(--fm);font-size:0.6rem;color:var(--muted2);text-transform:uppercase;letter-spacing:0.1em;}
+.dax-code{padding:0.95rem 1.3rem;font-family:var(--fm);font-size:0.71rem;color:#a8d8f0;line-height:1.7;background:rgba(0,0,0,0.28);white-space:pre-wrap;}
+.kw{color:var(--cyan);}
+.fn{color:var(--amber);}
+.st{color:var(--green);}
+.dax-desc{padding:0.75rem 1.3rem;font-size:0.76rem;color:var(--muted);font-weight:300;border-top:1px solid var(--border);line-height:1.55;}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:0.65rem;margin-top:1.8rem;}
+.pill{font-family:var(--fm);font-size:0.7rem;color:var(--cyan);background:var(--cyan-dim);border:1px solid var(--border2);padding:0.35rem 0.95rem;border-radius:2rem;}
+.pill-a{color:var(--amber);background:rgba(255,179,0,0.06);border-color:rgba(255,179,0,0.2);}
+.pill-p{color:var(--purple);background:rgba(179,136,255,0.06);border-color:rgba(179,136,255,0.2);}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:270px 1fr;gap:3.5rem;align-items:start;}
+.author-box{background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:2.3rem;text-align:center;}
+.author-av{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--cyan) 0%,#0066aa 100%);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.6rem;font-weight:800;color:var(--bg);margin:0 auto 0.9rem;}
+.author-nm{font-family:var(--fd);font-size:1.1rem;font-weight:700;margin-bottom:0.22rem;}
+.author-rl{font-family:var(--fm);font-size:0.65rem;color:var(--cyan);letter-spacing:0.1em;margin-bottom:0.25rem;}
+.author-un{font-size:0.76rem;color:var(--muted);margin-bottom:1.3rem;}
+.a-links{display:flex;flex-direction:column;gap:0.55rem;}
+.a-lnk{font-family:var(--fm);font-size:0.68rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.38rem 0.75rem;border-radius:4px;transition:all 0.2s;display:block;}
+.a-lnk:hover{color:var(--cyan);border-color:var(--border2);}
+.about-txt h3{font-family:var(--fd);font-size:1.75rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.95rem;}
+.about-txt p{font-size:0.91rem;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:0.85rem;}
+.tags{display:flex;flex-wrap:wrap;gap:0.55rem;margin-top:1.4rem;}
+.tag{font-family:var(--fm);font-size:0.66rem;color:var(--green);background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.18);padding:0.28rem 0.75rem;border-radius:2rem;}
+
+/* FAQ */
+.faq-list{margin-top:2.3rem;display:flex;flex-direction:column;}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-q{padding:1.3rem 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;user-select:none;}
+.faq-qt{font-size:0.93rem;font-weight:500;line-height:1.4;}
+.faq-ic{font-family:var(--fm);font-size:1.1rem;color:var(--cyan);flex-shrink:0;transition:transform 0.22s;line-height:1;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease;}
+.faq-ai{padding:0 0 1.2rem;font-size:0.85rem;color:var(--muted);line-height:1.78;font-weight:300;}
+.faq-item.open .faq-ic{transform:rotate(45deg);}
+.faq-item.open .faq-a{max-height:320px;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:1.8rem 4rem;display:flex;justify-content:space-between;align-items:center;background:var(--bg);position:relative;z-index:1;}
+.fl{font-family:var(--fm);font-size:0.68rem;color:var(--muted2);letter-spacing:0.08em;}
+.fr{font-family:var(--fm);font-size:0.68rem;color:var(--muted2);}
+.fr span{color:var(--cyan);}
+
+/* FADE */
+.fu{opacity:0;transform:translateY(26px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fu.vis{opacity:1;transform:translateY(0);}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .sec,.sec-full{padding:3.5rem 1.5rem;}
+  .kpi-inner{grid-template-columns:repeat(2,1fr);}
+  .kpi-item{border-right:none;border-bottom:1px solid var(--border);}
+  .ds-grid,.about-grid{grid-template-columns:1fr;}
+  .ins-grid,.vis-grid,.int-grid,.mth-grid,.dax-grid{grid-template-columns:1fr;}
+  footer{padding:1.3rem 1.5rem;flex-direction:column;gap:0.4rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SS · AI/ML ANALYSIS</div>
+  <ul class="nav-links">
+    <li><a href="#dataset">Dataset</a></li>
+    <li><a href="#insights">Insights</a></li>
+    <li><a href="#interpret">How to Read</a></li>
+    <li><a href="#methodology">Methodology</a></li>
+    <li><a href="#dax">DAX</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="https://app.powerbi.com/links/xJWdsYU1uE?ctid=452a0083-a6e2-46aa-8082-480002eeb4b5&pbi_source=linkShare" target="_blank" class="nav-cta">Live Dashboard ↗</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="orb1"></div><div class="orb2"></div>
+  <div style="position:relative;z-index:1;">
+    <div class="eyebrow">Data Visualization · Power BI · 2025</div>
+    <h1>AI / ML Job Market<br><span class="grad">Analysis Dashboard</span></h1>
+    <p class="hero-sub">A portfolio-grade Power BI dashboard uncovering global salary trends, top-paying roles, and career trajectories across <strong style="color:var(--text);font-weight:500;">151,000+</strong> real-world AI & Data Science job records spanning 2020–2025.</p>
+    <div class="cta-row">
+      <a href="https://app.powerbi.com/links/xJWdsYU1uE?ctid=452a0083-a6e2-46aa-8082-480002eeb4b5&pbi_source=linkShare" target="_blank" class="btn-p">Explore Dashboard ↗</a>
+      <a href="https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs" target="_blank" class="btn-o">View Dataset ↗</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll to explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- KPI BAR -->
+<div class="kpi-bar">
+  <div class="kpi-inner">
+    <div class="kpi-item"><div class="kpi-val" data-target="147">0</div><div class="kpi-label">Median Salary (USD)</div><div class="kpi-sub">K · All experience levels</div></div>
+    <div class="kpi-item"><div class="kpi-val" data-target="800">0</div><div class="kpi-label">Maximum Salary (USD)</div><div class="kpi-sub">K · Executive-level peak</div></div>
+    <div class="kpi-item"><div class="kpi-val" data-target="151">0</div><div class="kpi-label">Total Job Records</div><div class="kpi-sub">K · Real-world global data</div></div>
+    <div class="kpi-item"><div class="kpi-val" data-target="20">0</div><div class="kpi-label">Remote Jobs</div><div class="kpi-sub">% · Fully remote roles</div></div>
+  </div>
+</div>
+
+<!-- DASHBOARD PREVIEW -->
+<div class="sec-full" id="dashboard">
+  <div class="sec-full-in">
+    <div class="eye">Live Preview</div>
+    <h2 class="stitle">The Dashboard</h2>
+    <p class="sdesc">A single-page interactive Power BI dashboard with 7 visuals, 4 slicers, and 9 DAX measures — built for both class presentation and portfolio showcasing.</p>
+    <div class="db-frame fu">
+      <div class="db-bar">
+        <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+        <div class="db-url">app.powerbi.com · AI / ML Job Market Analysis — Dashboard · Siddharth Sadhu · Adani University</div>
+      </div>
+      <div class="db-content">
+        <!-- Header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.5rem;border-bottom:1px solid rgba(0,229,255,0.08);background:#06091a;">
+          <div style="display:flex;align-items:center;gap:0.8rem;">
+            <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#00e5ff,#0066aa);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.65rem;font-weight:700;color:#000;">AU</div>
+            <span style="font-family:'DM Mono',monospace;font-size:0.62rem;color:#7a8a9e;letter-spacing:0.1em;">ADANI UNIVERSITY</span>
+          </div>
+          <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#e8edf5;">AI / ML Job Market Analysis — Dashboard</div>
+          <a href="https://app.powerbi.com/links/xJWdsYU1uE?ctid=452a0083-a6e2-46aa-8082-480002eeb4b5&pbi_source=linkShare" target="_blank" style="background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.25);border-radius:4px;padding:0.35rem 0.9rem;font-family:'DM Mono',monospace;font-size:0.62rem;color:#00e5ff;text-decoration:none;transition:all 0.2s;">⬡ LIVE DEMO ↗</a>
+        </div>
+        <!-- KPIs -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(0,229,255,0.07);">
+          <div style="background:#06091a;padding:1.1rem 1.5rem;text-align:center;"><div style="font-family:'DM Mono',monospace;font-size:1.7rem;color:#00e5ff;">147.00K</div><div style="font-size:0.7rem;color:#7a8a9e;margin-top:0.18rem;">Median Salary</div></div>
+          <div style="background:#06091a;padding:1.1rem 1.5rem;text-align:center;"><div style="font-family:'DM Mono',monospace;font-size:1.7rem;color:#00e5ff;">800.00K</div><div style="font-size:0.7rem;color:#7a8a9e;margin-top:0.18rem;">Max Salary</div></div>
+          <div style="background:#06091a;padding:1.1rem 1.5rem;text-align:center;"><div style="font-family:'DM Mono',monospace;font-size:1.7rem;color:#00e5ff;">151K</div><div style="font-size:0.7rem;color:#7a8a9e;margin-top:0.18rem;">Total Jobs</div></div>
+          <div style="background:#06091a;padding:1.1rem 1.5rem;text-align:center;"><div style="font-family:'DM Mono',monospace;font-size:1.7rem;color:#00e5ff;">20.76</div><div style="font-size:0.7rem;color:#7a8a9e;margin-top:0.18rem;">Remote Jobs %</div></div>
+        </div>
+        <!-- Charts Row 1 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 0.72fr;gap:1px;background:rgba(0,229,255,0.06);margin-top:1px;">
+          <div style="background:#06091a;padding:1.1rem 1.4rem;">
+            <div style="font-size:0.68rem;color:#e8edf5;margin-bottom:0.9rem;font-weight:500;">Top 10 Highest Paying AI/ML Roles</div>
+            <div style="display:flex;flex-direction:column;gap:0.38rem;">
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.56rem;color:#7a8a9e;"><span style="width:110px;text-align:right;flex-shrink:0;">Research Team Lead</span><div style="flex:1;height:13px;background:linear-gradient(to right,#00e5ff,#00b4d8);border-radius:2px;max-width:85%;opacity:0.9;"></div></div>
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.56rem;color:#7a8a9e;"><span style="width:110px;text-align:right;flex-shrink:0;">Analytics Eng...</span><div style="flex:1;height:13px;background:linear-gradient(to right,#00e5ff,#00b4d8);border-radius:2px;max-width:70%;opacity:0.8;"></div></div>
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.56rem;color:#7a8a9e;"><span style="width:110px;text-align:right;flex-shrink:0;">Data Science Lead</span><div style="flex:1;height:13px;background:linear-gradient(to right,#00e5ff,#00b4d8);border-radius:2px;max-width:62%;opacity:0.75;"></div></div>
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.56rem;color:#7a8a9e;"><span style="width:110px;text-align:right;flex-shrink:0;">Applied AI/ML Lead</span><div style="flex:1;height:13px;background:linear-gradient(to right,#00e5ff,#00b4d8);border-radius:2px;max-width:55%;opacity:0.7;"></div></div>
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.56rem;color:#7a8a9e;"><span style="width:110px;text-align:right;flex-shrink:0;">Head of ML</span><div style="flex:1;height:13px;background:linear-gradient(to right,#00e5ff,#00b4d8);border-radius:2px;max-width:48%;opacity:0.65;"></div></div>
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.56rem;color:#7a8a9e;"><span style="width:110px;text-align:right;flex-shrink:0;">IT Enterprise DA...</span><div style="flex:1;height:13px;background:linear-gradient(to right,#00e5ff,#00b4d8);border-radius:2px;max-width:43%;opacity:0.6;"></div></div>
+            </div>
+          </div>
+          <div style="background:#06091a;padding:1.1rem 1.4rem;">
+            <div style="font-size:0.68rem;color:#e8edf5;margin-bottom:0.7rem;font-weight:500;">Salary Growth Trend by Experience (2020–2025)</div>
+            <div style="display:flex;gap:0.9rem;margin-bottom:0.6rem;flex-wrap:wrap;">
+              <span style="font-size:0.54rem;color:#7a8a9e;display:flex;align-items:center;gap:0.28rem;"><span style="width:12px;height:2px;background:#b388ff;display:inline-block;border-radius:1px;"></span>Executive</span>
+              <span style="font-size:0.54rem;color:#7a8a9e;display:flex;align-items:center;gap:0.28rem;"><span style="width:12px;height:2px;background:#00e5ff;display:inline-block;border-radius:1px;"></span>Senior</span>
+              <span style="font-size:0.54rem;color:#7a8a9e;display:flex;align-items:center;gap:0.28rem;"><span style="width:12px;height:2px;background:#ffb300;display:inline-block;border-radius:1px;"></span>Mid</span>
+              <span style="font-size:0.54rem;color:#7a8a9e;display:flex;align-items:center;gap:0.28rem;"><span style="width:12px;height:2px;background:#00e676;display:inline-block;border-radius:1px;"></span>Entry</span>
+            </div>
+            <svg viewBox="0 0 280 120" style="width:100%;height:110px;">
+              <polyline points="15,105 75,90 135,72 195,52 255,36" fill="none" stroke="#b388ff" stroke-width="2" opacity="0.9"/>
+              <polyline points="15,98 75,85 135,70 195,55 255,42" fill="none" stroke="#00e5ff" stroke-width="2" opacity="0.85"/>
+              <polyline points="15,112 75,104 135,96 195,86 255,76" fill="none" stroke="#ffb300" stroke-width="1.5" opacity="0.75"/>
+              <polyline points="15,118 75,114 135,109 195,101 255,92" fill="none" stroke="#00e676" stroke-width="1.5" opacity="0.65"/>
+              <line x1="15" y1="122" x2="255" y2="122" stroke="rgba(0,229,255,0.12)" stroke-width="1"/>
+              <text x="15" y="132" fill="#3d4f63" font-size="7" font-family="monospace">2020</text>
+              <text x="108" y="132" fill="#3d4f63" font-size="7" font-family="monospace">2022</text>
+              <text x="218" y="132" fill="#3d4f63" font-size="7" font-family="monospace">2025</text>
+            </svg>
+          </div>
+          <div style="background:#06091a;padding:1.1rem 1.4rem;">
+            <div style="font-size:0.68rem;color:#e8edf5;margin-bottom:0.7rem;font-weight:500;">Salary Band Distribution</div>
+            <svg viewBox="0 0 150 140" style="width:100%;height:130px;">
+              <circle cx="75" cy="68" r="42" fill="none" stroke="#00e5ff" stroke-width="20" stroke-dasharray="176 264" stroke-dashoffset="0" opacity="0.85"/>
+              <circle cx="75" cy="68" r="42" fill="none" stroke="#ff7043" stroke-width="20" stroke-dasharray="75 264" stroke-dashoffset="-176" opacity="0.75"/>
+              <circle cx="75" cy="68" r="42" fill="none" stroke="#37474f" stroke-width="20" stroke-dasharray="13 264" stroke-dashoffset="-251" opacity="0.6"/>
+              <circle cx="75" cy="68" r="26" fill="#06091a"/>
+              <text x="75" y="65" text-anchor="middle" fill="#00e5ff" font-size="11" font-family="monospace" font-weight="500">67%</text>
+              <text x="75" y="76" text-anchor="middle" fill="#4a5568" font-size="6.5" font-family="monospace">Mid Band</text>
+              <text x="6" y="126" fill="#4a5568" font-size="6.5" font-family="monospace">■ <tspan fill="#00e5ff">Mid</tspan>  ■ <tspan fill="#ff7043">High</tspan>  ■ <tspan fill="#607d8b">Low</tspan></text>
+            </svg>
+          </div>
+        </div>
+        <!-- Charts Row 2 -->
+        <div style="display:grid;grid-template-columns:0.6fr 1fr 0.72fr;gap:1px;background:rgba(0,229,255,0.05);margin-top:1px;">
+          <div style="background:#06091a;padding:1.1rem 1.4rem;">
+            <div style="font-size:0.68rem;color:#e8edf5;margin-bottom:0.7rem;font-weight:500;">Avg Salary by Experience</div>
+            <div style="display:flex;align-items:flex-end;gap:7px;height:90px;position:relative;">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="background:linear-gradient(to top,#00e5ff,#00b4d8);border-radius:2px 2px 0 0;width:100%;height:88%;opacity:0.9;"></div><span style="font-size:0.48rem;color:#7a8a9e;white-space:nowrap;">Exec</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="background:linear-gradient(to top,#00e5ff,#00b4d8);border-radius:2px 2px 0 0;width:100%;height:72%;opacity:0.8;"></div><span style="font-size:0.48rem;color:#7a8a9e;white-space:nowrap;">Senior</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="background:linear-gradient(to top,#00e5ff,#00b4d8);border-radius:2px 2px 0 0;width:100%;height:54%;opacity:0.7;"></div><span style="font-size:0.48rem;color:#7a8a9e;white-space:nowrap;">Mid</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="background:linear-gradient(to top,#00e5ff,#00b4d8);border-radius:2px 2px 0 0;width:100%;height:36%;opacity:0.6;"></div><span style="font-size:0.48rem;color:#7a8a9e;white-space:nowrap;">Entry</span></div>
+              <div style="position:absolute;bottom:16px;left:0;right:0;height:1px;background:rgba(0,229,255,0.1);"></div>
+            </div>
+          </div>
+          <div style="background:#06091a;padding:1.1rem 1.4rem;">
+            <div style="font-size:0.68rem;color:#e8edf5;margin-bottom:0.7rem;font-weight:500;">Global AI/ML Job Distribution</div>
+            <svg viewBox="0 0 380 150" style="width:100%;height:128px;">
+              <rect width="380" height="150" fill="#06091a"/>
+              <ellipse cx="92" cy="80" rx="25" ry="38" fill="none" stroke="rgba(0,229,255,0.18)" stroke-width="0.7"/>
+              <ellipse cx="190" cy="75" rx="42" ry="46" fill="none" stroke="rgba(0,229,255,0.18)" stroke-width="0.7"/>
+              <ellipse cx="250" cy="70" rx="28" ry="32" fill="none" stroke="rgba(0,229,255,0.18)" stroke-width="0.7"/>
+              <ellipse cx="318" cy="88" rx="32" ry="36" fill="none" stroke="rgba(0,229,255,0.18)" stroke-width="0.7"/>
+              <circle cx="92" cy="76" r="12" fill="rgba(0,229,255,0.25)" stroke="#00e5ff" stroke-width="1"/>
+              <circle cx="195" cy="70" r="7" fill="rgba(0,229,255,0.18)" stroke="#00e5ff" stroke-width="0.8"/>
+              <circle cx="230" cy="76" r="5" fill="rgba(0,229,255,0.14)" stroke="#00e5ff" stroke-width="0.8"/>
+              <circle cx="260" cy="63" r="6" fill="rgba(0,229,255,0.18)" stroke="#00e5ff" stroke-width="0.8"/>
+              <circle cx="325" cy="82" r="7" fill="rgba(0,229,255,0.18)" stroke="#00e5ff" stroke-width="0.8"/>
+              <circle cx="348" cy="98" r="4" fill="rgba(0,229,255,0.12)" stroke="#00e5ff" stroke-width="0.8"/>
+              <text x="72" y="104" fill="#3d4f63" font-size="6" font-family="monospace">N.AMERICA</text>
+              <text x="178" y="104" font-size="6" fill="#3d4f63" font-family="monospace">EUROPE</text>
+              <text x="300" y="110" fill="#3d4f63" font-size="6" font-family="monospace">ASIA</text>
+            </svg>
+          </div>
+          <div style="background:#06091a;padding:1.1rem 1.4rem;">
+            <div style="font-size:0.68rem;color:#e8edf5;margin-bottom:0.7rem;font-weight:500;">Avg Salary by Company Size</div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;padding-top:0.2rem;">
+              <div><div style="font-size:0.58rem;color:#7a8a9e;margin-bottom:0.22rem;display:flex;justify-content:space-between;"><span>Large</span><span style="color:#00e5ff;">$158K</span></div><div style="height:9px;background:rgba(0,229,255,0.08);border-radius:2px;overflow:hidden;"><div style="width:84%;height:100%;background:linear-gradient(to right,#00e5ff,#00b4d8);opacity:0.85;border-radius:2px;"></div></div></div>
+              <div><div style="font-size:0.58rem;color:#7a8a9e;margin-bottom:0.22rem;display:flex;justify-content:space-between;"><span>Medium</span><span style="color:#00e5ff;">$142K</span></div><div style="height:9px;background:rgba(0,229,255,0.08);border-radius:2px;overflow:hidden;"><div style="width:71%;height:100%;background:linear-gradient(to right,#00e5ff,#00b4d8);opacity:0.75;border-radius:2px;"></div></div></div>
+              <div><div style="font-size:0.58rem;color:#7a8a9e;margin-bottom:0.22rem;display:flex;justify-content:space-between;"><span>Small</span><span style="color:#00e5ff;">$98K</span></div><div style="height:9px;background:rgba(0,229,255,0.08);border-radius:2px;overflow:hidden;"><div style="width:49%;height:100%;background:linear-gradient(to right,#00e5ff,#00b4d8);opacity:0.6;border-radius:2px;"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <!-- Slicers -->
+        <div style="display:flex;gap:1.5rem;padding:0.85rem 1.5rem;border-top:1px solid rgba(0,229,255,0.07);background:#050811;flex-wrap:wrap;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.58rem;color:#7a8a9e;"><span style="color:#00e5ff;">Work Year:</span> 2020–2025</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.58rem;color:#7a8a9e;"><span style="color:#00e5ff;">Experience:</span> All Levels</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.58rem;color:#7a8a9e;"><span style="color:#00e5ff;">Company Size:</span> All</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.58rem;color:#7a8a9e;"><span style="color:#00e5ff;">Work Mode:</span> All</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DATASET -->
+<div class="sec" id="dataset">
+  <div class="eye">Data Source</div>
+  <h2 class="stitle">Dataset Details</h2>
+  <p class="sdesc">Complete information about the dataset — its origin, structure, size, and every column explained.</p>
+  <div class="ds-grid">
+    <div>
+      <div class="ds-card fu">
+        <div class="ds-head">
+          <div class="ds-icon">CSV</div>
+          <div><div class="ds-name">Data Science, AI &amp; ML Job Salaries 2025</div><div class="ds-src"><a href="https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs" target="_blank" style="color:var(--cyan);text-decoration:none;font-family:var(--fm);font-size:0.65rem;">kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs ↗</a></div></div>
+        </div>
+        <div class="ds-row"><span class="dk">Total Records</span><span class="dv">151,000+ rows</span></div>
+        <div class="ds-row"><span class="dk">Columns Used</span><span class="dv">9 (cleaned from 11)</span></div>
+        <div class="ds-row"><span class="dk">Year Range</span><span class="dv">2020 – 2025</span></div>
+        <div class="ds-row"><span class="dk">License</span><span class="dv"><span class="badge bg">CC0 Public Domain</span></span></div>
+        <div class="ds-row"><span class="dk">Formats</span><span class="dv"><span class="badge bc">CSV</span>&nbsp;<span class="badge bc">JSON</span></span></div>
+        <div class="ds-row"><span class="dk">Data Sources</span><span class="dv">AIJobs, Payscale, KDnuggets, ZipRecruiter</span></div>
+        <div class="ds-row"><span class="dk">Geographic Scope</span><span class="dv">Global · 60+ countries</span></div>
+        <div class="ds-row"><span class="dk">Currency</span><span class="dv"><span class="badge bg">All normalized to USD</span></span></div>
+        <div class="ds-row"><span class="dk">Columns Removed</span><span class="dv"><span class="badge ba">salary (raw)</span>&nbsp;<span class="badge ba">salary_currency</span></span></div>
+      </div>
+      <div class="pills">
+        <span class="pill">Real-world data</span><span class="pill">Multi-country</span>
+        <span class="pill pill-a">2020–2025</span><span class="pill pill-p">AI/ML focused</span>
+        <span class="pill">151K+ records</span><span class="pill">Free on Kaggle</span>
+      </div>
+      <div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
+        <a href="https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs" target="_blank" class="btn-p" style="font-size:0.72rem;padding:0.72rem 1.5rem;">Download Dataset ↗</a>
+        <a href="https://app.powerbi.com/links/xJWdsYU1uE?ctid=452a0083-a6e2-46aa-8082-480002eeb4b5&pbi_source=linkShare" target="_blank" class="btn-o" style="font-size:0.72rem;padding:0.72rem 1.5rem;">View Live Dashboard ↗</a>
+      </div>
+    </div>
+    <div class="col-card fu" style="transition-delay:0.1s;">
+      <div class="col-hd">9 Column Reference</div>
+      <div class="col-row"><div><div class="cn">Work Year</div><div class="ct">Whole Number</div></div><div class="cd">Year the salary was recorded. Ranges from 2020–2025. Used as X-axis in the salary trend line chart.</div></div>
+      <div class="col-row"><div><div class="cn">Experience Level</div><div class="ct">Text · Entry/Mid/Senior/Executive</div></div><div class="cd">Career stage. Decoded from EN/MI/SE/EX in Power Query. Primary slicer and analysis dimension.</div></div>
+      <div class="col-row"><div><div class="cn">Employment Type</div><div class="ct">Text · Full-Time only</div></div><div class="cd">Filtered to Full-Time for consistent benchmarks. PT/CT/FL records removed in Power Query.</div></div>
+      <div class="col-row"><div><div class="cn">Job Title</div><div class="ct">Text · 80+ unique roles</div></div><div class="cd">Specific role name. ML Engineer, Data Scientist, AI Researcher etc. Used in Top 10 bar chart.</div></div>
+      <div class="col-row"><div><div class="cn">Salary (USD)</div><div class="ct">Decimal · USD normalized</div></div><div class="cd">All salaries normalized to USD. Raw multi-currency column removed to prevent incorrect aggregation.</div></div>
+      <div class="col-row"><div><div class="cn">Employee Country</div><div class="ct">Text · ISO code</div></div><div class="cd">Country where the employee lives. May differ from Company Country for remote workers.</div></div>
+      <div class="col-row"><div><div class="cn">Work Mode</div><div class="ct">Text · Onsite/Hybrid/Remote</div></div><div class="cd">Decoded from 0/50/100. Powers the Remote Jobs % KPI card measure.</div></div>
+      <div class="col-row"><div><div class="cn">Company Country</div><div class="ct">Text · ISO code</div></div><div class="cd">Where the hiring company is based. Used in map visual for geographic job distribution.</div></div>
+      <div class="col-row"><div><div class="cn">Company Size</div><div class="ct">Text · Small/Medium/Large</div></div><div class="cd">Decoded from S/M/L in Power Query. Used in salary comparison bar chart and slicer.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- INSIGHTS -->
+<div class="sec" id="insights">
+  <div class="eye">Findings</div>
+  <h2 class="stitle">Key Insights</h2>
+  <p class="sdesc">Six data-backed discoveries from 151K+ records that decode the AI/ML job market.</p>
+  <div class="ins-grid">
+    <div class="ins-card fu"><div class="ins-num">01 · TOP ROLES</div><div class="ins-title">Research Team Lead commands the highest compensation</div><div class="ins-body">Leadership AI roles significantly outpace pure engineering positions, signaling that cross-functional expertise is valued above deep technical skill alone at the senior level.</div><div class="ins-val">$350K+</div></div>
+    <div class="ins-card fu" style="transition-delay:.08s"><div class="ins-num">02 · EXPERIENCE</div><div class="ins-title">Executive earns nearly 2× entry-level salary</div><div class="ins-body">Experience is the strongest single predictor of compensation in AI/ML — outweighing geography, company size, or specific job title in most cases across all regions.</div><div class="ins-val">~2× gap</div></div>
+    <div class="ins-card fu" style="transition-delay:.16s"><div class="ins-num">03 · REMOTE WORK</div><div class="ins-title">Only 20.76% of AI/ML jobs are truly remote</div><div class="ins-body">Despite the remote-first tech narrative, the majority of AI/ML roles remain onsite or hybrid — suggesting lab access, hardware requirements, or team collaboration needs.</div><div class="ins-val">20.76%</div></div>
+    <div class="ins-card fu"><div class="ins-num">04 · SALARY BANDS</div><div class="ins-title">67% of all roles fall in the $60K–$120K mid band</div><div class="ins-body">The workforce concentrates in the mid range. The High band (28.36%) is reserved primarily for Senior/Executive roles at large companies, especially in North America.</div><div class="ins-val">67% mid</div></div>
+    <div class="ins-card fu" style="transition-delay:.08s"><div class="ins-num">05 · COMPANY SIZE</div><div class="ins-title">Large companies pay 61% more than small firms</div><div class="ins-body">Large orgs average $158K vs $98K at small companies. However, some startups match or exceed this for niche AI specializations like LLM research or autonomous systems.</div><div class="ins-val">+61%</div></div>
+    <div class="ins-card fu" style="transition-delay:.16s"><div class="ins-num">06 · GROWTH TREND</div><div class="ins-title">Salaries have grown every year from 2020–2025</div><div class="ins-body">The line chart shows consistent growth across all experience levels, with the sharpest acceleration occurring post-2022 — coinciding directly with the generative AI hiring surge.</div><div class="ins-val">↑ 5yr trend</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- HOW TO INTERPRET -->
+<div class="sec-full" id="interpret">
+  <div class="sec-full-in">
+    <div class="eye">Dashboard Guide</div>
+    <h2 class="stitle">How to Interpret the Dashboard</h2>
+    <p class="sdesc">A visual-by-visual guide — what each chart shows, how to read it correctly, and how slicers interact.</p>
+    <div class="int-grid">
+      <div class="int-card fu"><div class="int-icon">KPI</div><div><div class="int-title">The 4 KPI Cards (Top Row)</div><div class="int-body">Show Median Salary, Max Salary, Total Jobs, and Remote Jobs % for the currently filtered data. All four update dynamically with every slicer click. Median is used (not average) to avoid distortion from extreme executive salaries pulling the number unrealistically high.</div><div class="int-tip">Try: Click "Entry Level" in the Experience slicer to benchmark what a fresh AI/ML graduate earns.</div></div></div>
+      <div class="int-card fu" style="transition-delay:.08s"><div class="int-icon">BAR</div><div><div class="int-title">Top 10 Paying Roles (Bar Chart)</div><div class="int-body">Ranked by Average Salary (USD) with a Top N filter showing only the top 10 titles. Longer bar = higher average. Job titles may be truncated — hover to see the full name. Changing slicers will shift which roles appear and their rankings.</div><div class="int-tip">Try: Filter to "Large" company + "Senior Level" to see elite compensation benchmarks.</div></div></div>
+      <div class="int-card fu"><div class="int-icon">LINE</div><div><div class="int-title">Salary Growth Trend (Line Chart)</div><div class="int-body">Shows average salary over time (2020–2025) broken by experience level. Four lines = Entry, Mid, Senior, Executive. The widening gap between lines over time shows senior professionals have benefited most from AI demand growth.</div><div class="int-tip">The sharp uptick from 2022–2023 correlates directly with the ChatGPT-driven AI hiring surge.</div></div></div>
+      <div class="int-card fu" style="transition-delay:.08s"><div class="int-icon">DO</div><div><div class="int-title">Salary Band Distribution (Donut Chart)</div><div class="int-body">Categorizes all records into Low (&lt;$60K), Mid ($60K–$120K), and High (&gt;$120K) using the DAX calculated column "Salary Band". The 67% Mid figure shifts when filtering to Senior+ only. This is NOT a raw data field — it was created with nested IF statements in DAX.</div><div class="int-tip">This chart demonstrates the Salary Band calculated column — mention this in your viva.</div></div></div>
+      <div class="int-card fu"><div class="int-icon">MAP</div><div><div class="int-title">Global Job Distribution (Map)</div><div class="int-body">Bubble size = number of job records per country. North America and Europe dominate. Note: shows Company Country (employer location), not Employee Country, which may differ for remote workers. US concentration is why the median salary ($147K) appears high globally.</div><div class="int-tip">Select "Remote" in Work Mode slicer to see how geographic distribution changes for remote roles.</div></div></div>
+      <div class="int-card fu" style="transition-delay:.08s"><div class="int-icon">SLI</div><div><div class="int-title">4 Slicers — Interactive Filters</div><div class="int-body">Work Year, Experience Level, Company Size, and Work Mode all control every visual simultaneously. Cross-filtering is fully enabled — clicking a bar in any chart also filters all other visuals. Use combinations like "Remote + Entry + Large" for targeted analysis.</div><div class="int-tip">Hold Ctrl and click multiple options in a slicer to select more than one value at a time.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- VISUALS -->
+<div class="sec">
+  <div class="eye">Visual Inventory</div>
+  <h2 class="stitle">All 9 Visuals &amp; Components</h2>
+  <p class="sdesc">Every visual used — its type, data fields mapped, and the story it tells.</p>
+  <div class="vis-grid">
+    <div class="vis-card fu"><div class="vis-type">Card Visual × 4</div><div class="vis-name">KPI Cards</div><div class="vis-body">Median Salary, Max Salary, Total Jobs, Remote Jobs %. DAX-powered. Update with every slicer interaction.</div></div>
+    <div class="vis-card fu" style="transition-delay:.06s"><div class="vis-type">Clustered Bar Chart</div><div class="vis-name">Top 10 Paying Roles</div><div class="vis-body">Y: Job Title · X: Avg Salary · Top N filter = 10. Benchmark for role-level compensation.</div></div>
+    <div class="vis-card fu" style="transition-delay:.12s"><div class="vis-type">Line Chart</div><div class="vis-name">Salary Trend by Experience</div><div class="vis-body">X: Work Year · Y: Avg Salary · Legend: Experience Level. Shows 5-year career salary growth.</div></div>
+    <div class="vis-card fu"><div class="vis-type">Donut Chart</div><div class="vis-name">Salary Band Distribution</div><div class="vis-body">Legend: Salary Band (calculated column) · Values: Total Jobs. Low / Mid / High tier breakdown.</div></div>
+    <div class="vis-card fu" style="transition-delay:.06s"><div class="vis-type">Clustered Column Chart</div><div class="vis-name">Avg Salary by Experience</div><div class="vis-body">X: Experience Level · Y: Avg Salary. Clear visual proof experience = #1 salary driver.</div></div>
+    <div class="vis-card fu" style="transition-delay:.12s"><div class="vis-type">Map Visual</div><div class="vis-name">Global Job Distribution</div><div class="vis-body">Location: Company Country · Size: Total Jobs. Geographic concentration of AI/ML employment.</div></div>
+    <div class="vis-card fu"><div class="vis-type">Clustered Bar Chart</div><div class="vis-name">Avg Salary by Company Size</div><div class="vis-body">Y: Company Size · X: Avg Salary. Compares Small, Medium, Large org compensation.</div></div>
+    <div class="vis-card fu" style="transition-delay:.06s"><div class="vis-type">Slicer × 4</div><div class="vis-name">Interactive Filters</div><div class="vis-body">Work Year (range slider), Experience Level, Company Size, Work Mode. All enable cross-filtering.</div></div>
+    <div class="vis-card fu" style="transition-delay:.12s"><div class="vis-type">Text Box + Image</div><div class="vis-name">Header &amp; Branding</div><div class="vis-body">Adani University logo, dashboard title, Live Demo button. Professional page anchoring elements.</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- METHODOLOGY -->
+<div class="sec-full" id="methodology">
+  <div class="sec-full-in">
+    <div class="eye">Process</div>
+    <h2 class="stitle">Project Methodology</h2>
+    <p class="sdesc">Step-by-step walkthrough of how this was built — from raw CSV to polished, interactive dashboard.</p>
+    <div class="mth-grid">
+      <div class="mth-card fu"><div class="mth-num">01</div><div class="mth-tag">Data Acquisition</div><div class="mth-title">Dataset Selection &amp; Import</div><div class="mth-body">Selected the Kaggle AI/ML Salaries 2025 dataset for real-world relevance, recency, and domain alignment with the AI/ML career trajectory.</div><div class="mth-items"><div class="mth-item">Identified CC0 licensed dataset with 151K+ records</div><div class="mth-item">Downloaded CSV from Kaggle</div><div class="mth-item">Loaded via Power BI's native Get Data → CSV connector</div></div></div>
+      <div class="mth-card fu" style="transition-delay:.08s"><div class="mth-num">02</div><div class="mth-tag">Power Query</div><div class="mth-title">Data Cleaning &amp; Transformation</div><div class="mth-body">Used Power Query Editor to clean, decode, and reshape the raw dataset into an analysis-ready format before loading into the model.</div><div class="mth-items"><div class="mth-item">Removed raw salary + salary_currency columns</div><div class="mth-item">Decoded EN/MI/SE/EX → readable labels</div><div class="mth-item">Decoded 0/50/100 → Onsite/Hybrid/Remote</div><div class="mth-item">Decoded S/M/L → Small/Medium/Large</div><div class="mth-item">Renamed all 9 columns for readability</div><div class="mth-item">Filtered to Full-Time employment only</div></div></div>
+      <div class="mth-card fu"><div class="mth-num">03</div><div class="mth-tag">Data Modeling</div><div class="mth-title">Model Structure &amp; Measures Table</div><div class="mth-body">Single flat table model — all dimensions embedded in the fact table. A dedicated _Measures table separates all DAX calculations from raw data columns.</div><div class="mth-items"><div class="mth-item">Single table — no relationships needed</div><div class="mth-item">Created _Measures table (professional best practice)</div><div class="mth-item">Used Dummy column placeholder to keep table visible</div></div></div>
+      <div class="mth-card fu" style="transition-delay:.08s"><div class="mth-num">04</div><div class="mth-tag">DAX</div><div class="mth-title">Measures &amp; Calculated Columns</div><div class="mth-body">Built 7 measures and 2 calculated columns covering aggregations, conditional filtering, and salary categorization using CALCULATE, DIVIDE, and nested IF.</div><div class="mth-items"><div class="mth-item">7 measures in _Measures table</div><div class="mth-item">2 calculated columns on fact table</div><div class="mth-item">CALCULATE used for conditional filter overrides</div><div class="mth-item">DIVIDE used for safe % calculation</div></div></div>
+      <div class="mth-card fu"><div class="mth-num">05</div><div class="mth-tag">Visualization</div><div class="mth-title">Dashboard Layout &amp; Design</div><div class="mth-body">Designed a single-page layout with structured visual hierarchy — header, KPI row, two chart rows, and interactive slicer panel. Visual types chosen to best represent each data story.</div><div class="mth-items"><div class="mth-item">7 visuals + 4 slicers on single page</div><div class="mth-item">Consistent titles, labels, legends across all visuals</div><div class="mth-item">Cross-filtering enabled on all visuals</div><div class="mth-item">Logo and Live Demo button in header</div></div></div>
+      <div class="mth-card fu" style="transition-delay:.08s"><div class="mth-num">06</div><div class="mth-tag">Review &amp; Polish</div><div class="mth-title">Validation &amp; Final Formatting</div><div class="mth-body">Reviewed all visuals for accuracy, updated deprecated visual types, verified slicer interactions, formatted charts with proper titles and labels.</div><div class="mth-items"><div class="mth-item">Replaced deprecated Card visual with new version</div><div class="mth-item">Fixed map visual retirement warning</div><div class="mth-item">Tested all 4 slicers for cross-filter behavior</div><div class="mth-item">Final layout alignment using Power BI align tools</div></div></div>
+    </div>
+    <div style="margin-top:2.8rem;"><div class="eye">Tech Stack</div>
+      <div class="pills">
+        <span class="pill">Power BI Desktop</span><span class="pill">Power Query Editor</span><span class="pill">DAX</span>
+        <span class="pill pill-a">Kaggle Dataset</span><span class="pill pill-a">CSV Format</span>
+        <span class="pill pill-p">Azure Maps Visual</span><span class="pill pill-p">Data Modeling</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAX -->
+<div class="sec" id="dax">
+  <div class="eye">DAX Reference</div>
+  <h2 class="stitle">All DAX Measures &amp; Columns</h2>
+  <p class="sdesc">Every formula used — with syntax highlighting and explanation of logic and purpose.</p>
+  <div class="dax-grid">
+    <div class="dax-card fu"><div class="dax-head"><span class="dax-name">Avg Salary</span><span class="dax-kind">Measure</span></div><div class="dax-code"><span class="kw">Avg Salary</span> = 
+<span class="fn">AVERAGE</span>(AI_Job_Salaries[Salary (USD)])</div><div class="dax-desc">Average salary across all filtered records. Updates dynamically with every slicer interaction.</div></div>
+    <div class="dax-card fu" style="transition-delay:.07s"><div class="dax-head"><span class="dax-name">Median Salary</span><span class="dax-kind">Measure · KPI Card</span></div><div class="dax-code"><span class="kw">Median Salary</span> = 
+<span class="fn">MEDIAN</span>(AI_Job_Salaries[Salary (USD)])</div><div class="dax-desc">Primary KPI metric. Median preferred over average — less affected by extreme executive outliers that distort the true typical salary.</div></div>
+    <div class="dax-card fu"><div class="dax-head"><span class="dax-name">Max Salary</span><span class="dax-kind">Measure</span></div><div class="dax-code"><span class="kw">Max Salary</span> = 
+<span class="fn">MAX</span>(AI_Job_Salaries[Salary (USD)])</div><div class="dax-desc">Returns the single highest salary in the currently filtered dataset. Shows the compensation ceiling.</div></div>
+    <div class="dax-card fu" style="transition-delay:.07s"><div class="dax-head"><span class="dax-name">Total Jobs</span><span class="dax-kind">Measure</span></div><div class="dax-code"><span class="kw">Total Jobs</span> = 
+<span class="fn">COUNTROWS</span>(AI_Job_Salaries)</div><div class="dax-desc">Counts rows in current filter context. Reflects the sample size powering all other calculations.</div></div>
+    <div class="dax-card fu"><div class="dax-head"><span class="dax-name">Remote Jobs %</span><span class="dax-kind">Measure · Advanced</span></div><div class="dax-code"><span class="kw">Remote Jobs %</span> = 
+<span class="fn">DIVIDE</span>(
+  <span class="fn">CALCULATE</span>(
+    <span class="fn">COUNTROWS</span>(AI_Job_Salaries),
+    AI_Job_Salaries[Work Mode] = <span class="st">"Remote"</span>
+  ),
+  <span class="fn">COUNTROWS</span>(AI_Job_Salaries), 0
+) * 100</div><div class="dax-desc">CALCULATE applies an additional filter (Remote only) inside the existing context. DIVIDE handles zero-division safely when no rows match.</div></div>
+    <div class="dax-card fu" style="transition-delay:.07s"><div class="dax-head"><span class="dax-name">Senior+ Avg Salary</span><span class="dax-kind">Measure · Advanced</span></div><div class="dax-code"><span class="kw">Senior+ Avg Salary</span> = 
+<span class="fn">CALCULATE</span>(
+  <span class="fn">AVERAGE</span>(AI_Job_Salaries[Salary (USD)]),
+  AI_Job_Salaries[Experience Level] 
+    <span class="kw">IN</span> {<span class="st">"Senior Level"</span>, <span class="st">"Executive Level"</span>}
+)</div><div class="dax-desc">Overrides external filter context to isolate Senior and Executive levels — demonstrates advanced CALCULATE usage with IN operator.</div></div>
+    <div class="dax-card fu"><div class="dax-head"><span class="dax-name">Entry Level Avg Salary</span><span class="dax-kind">Measure</span></div><div class="dax-code"><span class="kw">Entry Level Avg Salary</span> = 
+<span class="fn">CALCULATE</span>(
+  <span class="fn">AVERAGE</span>(AI_Job_Salaries[Salary (USD)]),
+  AI_Job_Salaries[Experience Level] 
+    = <span class="st">"Entry Level"</span>
+)</div><div class="dax-desc">Benchmarks fresh graduate earning potential. Compare against Senior+ Avg to quantify the career growth opportunity over time.</div></div>
+    <div class="dax-card fu" style="transition-delay:.07s"><div class="dax-head"><span class="dax-name">Salary Band</span><span class="dax-kind">Calculated Column</span></div><div class="dax-code"><span class="kw">Salary Band</span> = 
+<span class="fn">IF</span>(AI_Job_Salaries[Salary (USD)] &lt; 60000,
+  <span class="st">"Low (&lt; $60K)"</span>,
+<span class="fn">IF</span>(AI_Job_Salaries[Salary (USD)] &lt; 120000,
+  <span class="st">"Mid ($60K–$120K)"</span>,
+  <span class="st">"High (&gt; $120K)"</span>))</div><div class="dax-desc">Computed row-by-row, stored in the table. Enables the Donut Chart's categorical salary tier analysis across the dataset.</div></div>
+    <div class="dax-card fu"><div class="dax-head"><span class="dax-name">Is Senior</span><span class="dax-kind">Calculated Column</span></div><div class="dax-code"><span class="kw">Is Senior</span> = 
+<span class="fn">IF</span>(
+  AI_Job_Salaries[Experience Level] 
+    <span class="kw">IN</span> {<span class="st">"Senior Level"</span>, <span class="st">"Executive Level"</span>},
+  <span class="st">"Senior+"</span>,
+  <span class="st">"Junior/Mid"</span>
+)</div><div class="dax-desc">Binary flag for senior/non-senior segmentation. Enables quick slicer-based filtering between career tiers.</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<div class="sec-full">
+  <div class="sec-full-in">
+    <div class="eye">FAQ</div>
+    <h2 class="stitle">Frequently Asked Questions</h2>
+    <p class="sdesc">Common questions about this dashboard, the data, and the methodology — including likely viva questions.</p>
+    <div class="faq-list" style="max-width:820px;margin-top:2.3rem;">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">Why is Median Salary the KPI instead of Average?</span><span class="faq-ic">+</span></div>
+        <div class="faq-a"><div class="faq-ai">Salary distributions are right-skewed — a small number of executive roles earning $500K–$800K pull the arithmetic mean significantly upward, making it appear higher than what most professionals actually earn. The median is the midpoint of all salaries and represents what a "typical" AI/ML professional earns far more accurately. This is the same methodology used by government salary surveys and HR benchmarking companies worldwide.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">Why was the raw salary column removed?</span><span class="faq-ic">+</span></div>
+        <div class="faq-a"><div class="faq-ai">The raw salary column contains values in 40+ different currencies — USD, INR, EUR, JPY, and more. If used in any aggregation, Power BI treats all numbers as if they share the same unit, producing completely meaningless results. For example, $80,000 USD and ₹80,00,000 INR would be treated as equal. The salary_in_usd column normalizes all values using real exchange rates, enabling accurate cross-country comparison. Keeping the raw column risks someone accidentally using it and generating incorrect charts.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">The median shows $147K — is that a realistic global salary?</span><span class="faq-ic">+</span></div>
+        <div class="faq-a"><div class="faq-ai">Yes — but with important context. The dataset is heavily weighted toward US-based companies, which dominate the global AI/ML hiring market and pay among the world's highest salaries. For India-based roles, figures are significantly lower. This is exactly why the Company Country filter and map visual exist — use them to filter for your specific region to get locally relevant benchmarks. The global median figure is most useful for understanding the overall market ceiling rather than local expectations.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">What is the difference between a Measure and a Calculated Column?</span><span class="faq-ic">+</span></div>
+        <div class="faq-a"><div class="faq-ai">A Calculated Column is evaluated row-by-row at data load time and stored permanently in the table — like adding a new Excel column. It exists in the model and consumes memory. A Measure is computed dynamically at query time based on the current filter context — it recalculates every time you interact with a slicer or visual. Measures are more memory-efficient and are the preferred approach for aggregations like sums, averages, and percentages. In this project, Salary Band and Is Senior are calculated columns; everything else is a measure.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">How does CALCULATE work, and why is it needed for Remote Jobs %?</span><span class="faq-ic">+</span></div>
+        <div class="faq-a"><div class="faq-ai">CALCULATE is the most powerful function in DAX. It evaluates an expression while simultaneously modifying the filter context — adding or overriding filters on top of whatever slicers are already active. In Remote Jobs %, we need to count only rows where Work Mode equals "Remote" regardless of what the Work Mode slicer says. Without CALCULATE, there is no way to apply conditional filters inside a measure. DIVIDE is then used instead of the division operator to gracefully handle cases where the denominator is zero.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">How would you extend this into a Machine Learning project?</span><span class="faq-ic">+</span></div>
+        <div class="faq-a"><div class="faq-ai">This dataset is an ideal foundation for a salary prediction model. Using Experience Level, Job Title, Company Size, Work Mode, and Company Country as input features with Salary (USD) as the target variable, a regression model using Random Forest or XGBoost could predict expected compensation for any role profile. Feature importance analysis would likely confirm what this dashboard already shows — Experience Level is the dominant predictor, followed by Job Title and Company Country. This connects directly to ongoing work in SaralAI and future ML projects.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="sec-full" id="about">
+  <div class="sec-full-in">
+    <div class="about-grid">
+      <div class="author-box fu">
+        <div class="author-av">SS</div>
+        <div class="author-nm">Siddharth Sadhu</div>
+        <div class="author-rl">B.Tech ICT · Adani University</div>
+        <div class="author-un">Ahmedabad, Gujarat · 2024–2027<br>CGPA: 8.77</div>
+        <div class="a-links">
+          <a href="mailto:siddharthsadhu28@gmail.com" class="a-lnk">siddharthsadhu28@gmail.com</a>
+          <a href="https://www.linkedin.com/in/siddharth-sadhu" target="_blank" class="a-lnk">LinkedIn — Siddharth Sadhu ↗</a>
+          <a href="https://github.com/siddharthsadhu" target="_blank" class="a-lnk">GitHub — siddharthsadhu ↗</a>
+        </div>
+      </div>
+      <div class="about-txt fu" style="transition-delay:.1s">
+        <div class="eye">About the Author</div>
+        <h3>Pre-final year developer targeting AI/ML &amp; Data Science roles</h3>
+        <p>I'm a Backend-focused Software Developer with a CGPA of 8.77 at Adani University, building full-stack applications and applying machine learning in real-world contexts. This Power BI project is part of my Data Visualization coursework — but more importantly, it's a genuine deep-dive into the industry I'm actively entering.</p>
+        <p>I chose the AI/ML job market dataset intentionally. Understanding which roles pay the most, how salaries have grown post-2022, and what percentage of jobs are truly remote gives me strategic clarity as I approach the final stretch of my degree and the start of my career.</p>
+        <p>Notable work includes SaralAI (a multilingual NLP platform), an SSIP-selected Smart Glasses assistive system, and the Deloitte Data Analytics Virtual Experience. My belief: the best projects are ones you'd build even if there was no grade for it.</p>
+        <div style="display:flex;gap:0.8rem;margin-top:1.2rem;flex-wrap:wrap;">
+          <a href="https://www.linkedin.com/in/siddharth-sadhu" target="_blank" class="btn-p" style="font-size:0.72rem;padding:0.65rem 1.4rem;">LinkedIn ↗</a>
+          <a href="https://github.com/siddharthsadhu" target="_blank" class="btn-o" style="font-size:0.72rem;padding:0.65rem 1.4rem;">GitHub ↗</a>
+          <a href="mailto:siddharthsadhu28@gmail.com" class="btn-o" style="font-size:0.72rem;padding:0.65rem 1.4rem;">Email ↗</a>
+        </div>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">React.js</span><span class="tag">Power BI</span>
+          <span class="tag">Machine Learning</span><span class="tag">DAX</span><span class="tag">MySQL</span><span class="tag">Node.js</span>
+          <span class="tag">SSIP Selected</span><span class="tag">CGPA 8.77</span><span class="tag">Deloitte Analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fl">© 2025 SIDDHARTH SADHU · ADANI UNIVERSITY</div>
+  <div class="fr">BUILT WITH <span>♥</span> &amp; DAX · POWER BI PROJECT</div>
+</footer>
+
+<script>
+// Counter animation
+function animateCounters(){
+  document.querySelectorAll('[data-target]').forEach(el=>{
+    const target=+el.dataset.target;
+    let cur=0,step=target/55;
+    const t=setInterval(()=>{
+      cur+=step;
+      if(cur>=target){cur=target;clearInterval(t);}
+      el.textContent=Math.floor(cur);
+    },20);
+  });
+}
+// Intersection observer — fade up
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:0.1});
+document.querySelectorAll('.fu').forEach(el=>io.observe(el));
+// Counter trigger
+const kio=new IntersectionObserver(e=>{if(e[0].isIntersecting){animateCounters();kio.disconnect();}},{threshold:0.4});
+kio.observe(document.querySelector('.kpi-bar'));
+// FAQ
+function toggleFaq(el){
+  const item=el.parentElement,isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+// Nav highlight
+window.addEventListener('scroll',()=>{
+  let cur='';
+  document.querySelectorAll('[id]').forEach(s=>{if(window.scrollY>=s.offsetTop-130)cur=s.id;});
+  document.querySelectorAll('.nav-links a').forEach(a=>{a.style.color=a.getAttribute('href')==='#'+cur?'var(--cyan)':'';});
+},{ passive:true });
+</script>
+</body>
+</html>
