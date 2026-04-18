@@ -6,7 +6,7 @@
 
 [![Live Dashboard](https://img.shields.io/badge/Power%20BI-Live%20Dashboard-00b4d8?style=for-the-badge&logo=powerbi&logoColor=white)](https://app.powerbi.com/links/xJWdsYU1uE?ctid=452a0083-a6e2-46aa-8082-480002eeb4b5&pbi_source=linkShare)
 [![Dataset](https://img.shields.io/badge/Kaggle-Dataset-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white)](https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs)
-[![Website](https://img.shields.io/badge/Project-Website-0d1b2a?style=for-the-badge&logo=github&logoColor=white)](#)
+[![Website](https://img.shields.io/badge/Project-Website-0d1b2a?style=for-the-badge&logo=github&logoColor=white)](https://ai-ml-job-market-analysis.netlify.app/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Siddharth%20Sadhu-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/siddharth-sadhu-b67551274/)
 
 <br>
@@ -19,7 +19,7 @@
 |---|---|
 | 🖥️ Live Power BI Dashboard | [View Dashboard](https://app.powerbi.com/links/xJWdsYU1uE?ctid=452a0083-a6e2-46aa-8082-480002eeb4b5&pbi_source=linkShare) |
 | 📦 Kaggle Dataset | [Data Science, AI & ML Job Salaries 2025](https://www.kaggle.com/datasets/adilshamim8/salaries-for-data-science-jobs) |
-| 🌐 Project Website | [View Website](#) |
+| 🌐 Project Website | [View Website](https://ai-ml-job-market-analysis.netlify.app/) |
 | 👤 LinkedIn | [Siddharth Sadhu](https://www.linkedin.com/in/siddharth-sadhu-b67551274/) |
 
 ---
